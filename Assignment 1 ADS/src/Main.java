@@ -29,7 +29,7 @@ public class Main
         generatePermutations("","IOX");
         digitalis("123a12");
         System.out.println(binomial(7,3));
-        System.out.println(  GCF(32,48));
+        System.out.println(gcf(32,48));
     }
 
     //Time complexity: O(n), space complexity: O(n)
@@ -158,7 +158,7 @@ public class Main
     }
 
     //Time complexity: O(log(min(a,b)), space complexity: O(log(min(a,b))
-    public static int GCF (int a, int b)
+    public static int gcf (int a, int b)
     {
         if (b == 0) {
             return a;
@@ -170,7 +170,7 @@ public class Main
         }
 
         else {
-            return GCF(b,a%b);
+            return gcf(b,a%b);
         }
     }
 }
