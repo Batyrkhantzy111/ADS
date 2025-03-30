@@ -7,7 +7,6 @@ public class Main
         Scanner in = new Scanner(System.in);
 
         //int n = in.nextInt();
-
 //        int[] numbers = new int[n];
 //        for (int i=0; i<n;i++)
 //        {
@@ -21,73 +20,73 @@ public class Main
         
 //        char[] a = s.toCharArray();
 
-        findMin (new int[]{10,1,32,3,45}, 5);
+        System.out.println(findMinRec(new int[]{10,1,32,3,45}, 5));
         avg (new int[]{3,2,4,1}, 4);
-        ChPr(11);
+        chPr(11);
         System.out.println(fact(5));
         fib(5);
         pow(2,10);
         generatePermutations("","IOX");
-        isalldigits("123a12");
-        System.out.println(binomialcoef(7,3));
+        digitalis("123a12");
+        System.out.println(binomial(7,3));
         System.out.println(  GCF(32,48));
     }
 
-    //Time complexity: O(n), space complexity: O(1)
-    public static void findMin(int[] numbers, int n)
-    {
-        int min = numbers[0];
-        for (int i=1; i<n; i++)
-        {
-            if (numbers[i]<min)
-            {
-                min = numbers[i];
-            }
+    //Time complexity: O(n), space complexity: O(n)
+    public static int findMinRec(int[] numbers, int n) {
+        if (n==1) {
+            return numbers[0];
         }
-        System.out.println(min);
+        int minOfRest = findMinRec(numbers, n-1);
+        return Math.min(minOfRest, numbers[n-1]);
     }
 
-    //Time complexity: O(n), space complexity: O(1)
-    public static void avg (int[] numbers, int n)
-    {
-        float sum = 0;
-        for (int i=0; i<n;i++)
+    //Time complexity: O(n), space complexity: O(n)
+    public static float sumRecursive(int[] numbers, int n) {
+        if (n==1)
         {
-            sum+=numbers[i];
+            return numbers[0];
         }
-        float Avg=sum/n;
+        return numbers[n-1] + sumRecursive(numbers, n-1);
+    }
+
+    public static void avg(int[] numbers, int n) {
+        float sum=sumRecursive(numbers, n);
+        float Avg=sum /n;
         System.out.println(Avg);
     }
 
-    //Time complexity: O(sqrt(n)), space complexity: O(1)
-    public static void ChPr(int n) {
-        if (n <=1)
+
+    //Time complexity: O(sqrt(n)), space complexity: O(sqrt(n))
+    public static void chPr(int n) {
+        if (n<=1)
         {
             System.out.println("Composite");
-            return;
-        }
-
-        if (n==2)
+        } else if (n==2)
         {
             System.out.println("Prime");
-            return;
         }
-
-        if (n%2==0)
+        else if (n%2==0)
         {
             System.out.println("Composite");
-            return;
         }
-
-        for (int i=3; (i*i)<=n; i+=2)
+        else if
+        (isPrimeRec(n,3)) {
+            System.out.println("Prime");
+        }
+        else
         {
-            if (n%i==0) {
-                System.out.println("Composite");
-                return;
-            }
+            System.out.println("Composite");
         }
-        System.out.println("Prime");
     }
+
+    public static boolean isPrimeRec(int n, int i)
+    {
+        if (i*i>n) return true;
+        if (n%i == 0) return false;
+        return isPrimeRec(n, i+2);
+    }
+
 
     //Time complexity: O(n), space complexity: O(n)
     public static int fact(int n) {
@@ -99,15 +98,13 @@ public class Main
         return (n<=1) ? n : fib(n-1)+fib(n- 2);
     }
 
-    //Time complexity: O(n), space complexity: O(1)
-    public static int pow (int a, int n)
+    //Time complexity: O(logn), space complexity: O(log n)
+    public static int pow(int a, int n)
     {
-        int result = 1;
-        for (int i=0; i<n; i++)
-        {
-            result *=a;
-        }
-        return result;
+        if (n==0) return 1;
+        int half=pow(a,n/2);
+        if (n%2==0) return half*half;
+        else return half*half*a;
     }
 
     //Time complexity: O(n*n!), space complexity: O(n)
@@ -128,21 +125,27 @@ public class Main
         }
     }
 
-    //Time complexity: O(n), space complexity: O(1)
-    public static void isalldigits(String s) {
-        for (int i=0; i<s.length(); i++) {
-            if (!Character.isDigit(s.charAt(i)))
-            {
-                System.out.println("No");
-                return;
-            }
+    //Time complexity: O(n), space complexity: O(n)
+    public static void digitalis(String s) {
+        if (isAllDigits(s,0)) {
+            System.out.println("Yes");
         }
-        System.out.println("Yes");
+        else
+        {
+            System.out.println("No");
+        }
+    }
+
+    public static boolean isAllDigits(String s,int index) {
+        if (index==s.length()) return true;
+        if (!Character.isDigit(s.charAt(index))) return false;
+        return isAllDigits(s, index+1);
     }
 
 
+
     //Time complexity: O(2^n), space complexity: O(n)
-    public static int binomialcoef (int n, int k)
+    public static int binomial(int n, int k)
     {
         if (k==0 || k==n)
         {
@@ -150,7 +153,7 @@ public class Main
         }
         else
         {
-            return binomialcoef(n-1,k-1) + binomialcoef(n-1,k);
+            return binomial(n-1,k-1) + binomial(n-1,k);
         }
     }
 
